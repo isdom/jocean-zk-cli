@@ -17,6 +17,7 @@ import org.jocean.cli.DefaultCommandRepository;
 import org.jocean.cli.cmd.ExitCommand;
 import org.jocean.cli.cmd.HelpCommand;
 import org.jocean.zookeeper.cli.cmd.ZKClose;
+import org.jocean.zookeeper.cli.cmd.ZKList;
 import org.jocean.zookeeper.cli.cmd.ZKOpen;
 import org.jocean.zookeeper.cli.cmd.ZKStatus;
 
@@ -44,6 +45,7 @@ public class Main {
                 .addCommand(new ZKOpen())
                 .addCommand(new ZKClose())
                 .addCommand(new ZKStatus())
+                .addCommand(new ZKList())
 				;
 		
         final ConsoleReader reader = new ConsoleReader();
