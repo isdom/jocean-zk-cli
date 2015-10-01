@@ -2,6 +2,7 @@ package org.jocean.zookeeper.cli;
 
 import java.util.Map;
 
+import org.apache.curator.framework.CuratorFramework;
 import org.jocean.cli.AbstractCliContext;
 import org.jocean.cli.CliContext;
 
@@ -25,4 +26,13 @@ public class ZKCliContext extends AbstractCliContext implements CliContext {
         return null;
     }
 
+    public CuratorFramework getCuratorFramework() {
+        return this._curator;
+    }
+
+    public void setCuratorFramework(final CuratorFramework curator) {
+        this._curator = curator;
+    }
+    
+    private CuratorFramework _curator;
 }
