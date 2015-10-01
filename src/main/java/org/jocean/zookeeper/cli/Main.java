@@ -10,13 +10,18 @@ import java.io.PrintWriter;
 import jline.console.ConsoleReader;
 import jline.console.completer.StringsCompleter;
 import jline.console.history.FileHistory;
+import jline.console.history.PersistentHistory;
 
 import org.fusesource.jansi.AnsiConsole;
 import org.jocean.cli.CliShell;
 import org.jocean.cli.DefaultCommandRepository;
 import org.jocean.cli.cmd.ExitCommand;
 import org.jocean.cli.cmd.HelpCommand;
+import org.jocean.cli.cmd.StopException;
 import org.jocean.zookeeper.cli.cmd.ZKClose;
+import org.jocean.zookeeper.cli.cmd.ZKDelete;
+import org.jocean.zookeeper.cli.cmd.ZKExport;
+import org.jocean.zookeeper.cli.cmd.ZKImport;
 import org.jocean.zookeeper.cli.cmd.ZKList;
 import org.jocean.zookeeper.cli.cmd.ZKOpen;
 import org.jocean.zookeeper.cli.cmd.ZKStatus;
@@ -28,7 +33,7 @@ import org.jocean.zookeeper.cli.cmd.ZKStatus;
  */
 public class Main {
 
-	public static final String HISTORY_FILENAME = "/.joceancli.history";
+	public static final String HISTORY_FILENAME = "/.jocean.zkcli.history";
 	
 	/**
 	 * @param args
@@ -46,11 +51,15 @@ public class Main {
                 .addCommand(new ZKClose())
                 .addCommand(new ZKStatus())
                 .addCommand(new ZKList())
+                .addCommand(new ZKExport())
+                .addCommand(new ZKImport())
+                .addCommand(new ZKDelete())
 				;
 		
         final ConsoleReader reader = new ConsoleReader();
-        
-        reader.setHistory(new FileHistory(new File(System.getProperty("user.home") + HISTORY_FILENAME)));
+        final PersistentHistory history = 
+                new FileHistory(new File(System.getProperty("user.home") + HISTORY_FILENAME));
+        reader.setHistory(history);
         reader.setBellEnabled(false);
 
         reader.addCompleter(new StringsCompleter(repo.getCommandActionAsArray()));
@@ -67,12 +76,18 @@ public class Main {
         final PrintWriter out = new PrintWriter(System.out);
 
         while ((cmdline = reader.readLine("zk> ")) != null) {
-            String result = shell.execute(cmdline);
-            if ( null != result ) {
-				out.println(result);
-				out.flush();
+            try {
+                String result = shell.execute(cmdline);
+                if ( null != result ) {
+    				out.println(result);
+    				out.flush();
+                }
+            } catch (StopException e) {
+                break;
             }
         }
+        
+        history.flush();
 	}
 
 }
