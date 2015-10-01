@@ -16,8 +16,8 @@ import org.jocean.cli.CliShell;
 import org.jocean.cli.DefaultCommandRepository;
 import org.jocean.cli.cmd.ExitCommand;
 import org.jocean.cli.cmd.HelpCommand;
-import org.jocean.zookeeper.cli.cmd.CloseZK;
-import org.jocean.zookeeper.cli.cmd.OpenZK;
+import org.jocean.zookeeper.cli.cmd.ZKClose;
+import org.jocean.zookeeper.cli.cmd.ZKOpen;
 import org.jocean.zookeeper.cli.cmd.ZKStatus;
 
 
@@ -41,8 +41,8 @@ public class Main {
 				new DefaultCommandRepository()
 				.addCommand(new HelpCommand())
 				.addCommand(new ExitCommand())
-                .addCommand(new OpenZK())
-                .addCommand(new CloseZK())
+                .addCommand(new ZKOpen())
+                .addCommand(new ZKClose())
                 .addCommand(new ZKStatus())
 				;
 		

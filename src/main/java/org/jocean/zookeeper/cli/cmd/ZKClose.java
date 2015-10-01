@@ -11,15 +11,15 @@ import org.jocean.zookeeper.cli.ZKCliContext;
  * @author Marvin.Ma
  *
  */
-public class CloseZK implements ZKCliCommand {
+public class ZKClose implements ZKCliCommand {
 
 	public String getAction() {
-		return "closezk";
+		return "zkclose";
 	}
 
 	public String getHelp() {
 		return "disconnect from connected zookeeper server"
-				+ "\r\n\tUsage: closezk"
+				+ "\r\n\tUsage: zkclose"
 			;
 	}
 

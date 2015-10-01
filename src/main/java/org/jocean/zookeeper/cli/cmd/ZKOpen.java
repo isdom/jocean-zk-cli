@@ -13,15 +13,15 @@ import org.jocean.zookeeper.cli.ZKCliContext;
  * @author Marvin.Ma
  *
  */
-public class OpenZK implements ZKCliCommand {
+public class ZKOpen implements ZKCliCommand {
 
 	public String getAction() {
-		return "openzk";
+		return "zkopen";
 	}
 
 	public String getHelp() {
 		return "connect to zookeeper server"
-				+ "\r\n\tUsage: openzk [zk connect String]"
+				+ "\r\n\tUsage: zkopen [zk connect String]"
 			;
 	}
 
