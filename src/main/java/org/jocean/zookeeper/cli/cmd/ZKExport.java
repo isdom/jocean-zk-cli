@@ -65,17 +65,29 @@ public class ZKExport implements ZKCliCommand {
     private UnitDescription dumpNode(final CuratorFramework curator, 
             final String path) throws Exception {
         final UnitDescription desc = dumpContent(curator, path);
-        final List<String> children = curator.getChildren().forPath(path);
-        final List<UnitDescription>  descs = new ArrayList<>();
-        for (String child : children) {
-            descs.add(dumpNode(curator, path + "/" + child));
+        if (null!=desc) {
+            final List<String> children = curator.getChildren().forPath(path);
+            final List<UnitDescription>  descs = new ArrayList<>();
+            for (String child : children) {
+                final UnitDescription childDesc = dumpNode(curator, path + "/" + child);
+                if (null!=childDesc) {
+                    descs.add(childDesc);
+                } else {
+                    System.out.println(path + "/" + child + " is EphemeralNode, not export.");
+                }
+            }
+            if (!descs.isEmpty()) {
+                desc.setChildren(descs.toArray(new UnitDescription[0]));
+            }
         }
-        desc.setChildren(descs.toArray(new UnitDescription[0]));
         return desc;
     }
 
     private UnitDescription dumpContent(final CuratorFramework curator, 
             final String path) throws Exception {
+        if (isEphemeralNode(curator, path) ) {
+            return null;
+        }
         final UnitDescription desc = new UnitDescription();
         desc.setName(FilenameUtils.getName(path));
         final byte[] content = curator.getData().forPath(path);
@@ -83,5 +95,10 @@ public class ZKExport implements ZKCliCommand {
             desc.setParameters(new String(content, Charsets.UTF_8));
         }
         return desc;
+    }
+
+    private static boolean isEphemeralNode(final CuratorFramework curator,
+            final String path) throws Exception {
+        return 0 != curator.checkExists().forPath(path).getEphemeralOwner();
     }
 }
