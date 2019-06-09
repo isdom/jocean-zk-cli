@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.jocean.zookeeper.cli.cmd;
 
@@ -13,20 +13,22 @@ import org.jocean.zookeeper.cli.ZKCliContext;
  */
 public class ZKStatus implements ZKCliCommand {
 
-	public String getAction() {
+	@Override
+    public String getAction() {
 		return "zkstatus";
 	}
 
-	public String getHelp() {
+	@Override
+    public String getHelp() {
 		return "query zookeeper server's connecting status"
 				+ "\r\n\tUsage: zkstatus"
 			;
 	}
 
 	@Override
-    public String execute(final ZKCliContext ctx, String... args) throws Exception {
+    public String execute(final ZKCliContext ctx, final String... args) throws Exception {
         final CuratorFramework curator = ctx.getCuratorFramework();
-        return  (null == curator) 
+        return  (null == curator)
                 ? "ZK Not connected."
                 : "ZK Connected or Connecting" + curator.getZookeeperClient().getCurrentConnectionString();
 	}

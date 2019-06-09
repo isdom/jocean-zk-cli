@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.jocean.zookeeper.cli.cmd;
 
@@ -15,37 +15,39 @@ import org.jocean.zookeeper.cli.ZKCliContext;
  */
 public class ZKOpen implements ZKCliCommand {
 
-	public String getAction() {
+	@Override
+    public String getAction() {
 		return "zkopen";
 	}
 
-	public String getHelp() {
+	@Override
+    public String getHelp() {
 		return "connect to zookeeper server"
 				+ "\r\n\tUsage: zkopen [zk connect String]"
 			;
 	}
 
 	@Override
-	public String execute(final ZKCliContext ctx, String... args) throws Exception {
+	public String execute(final ZKCliContext ctx, final String... args) throws Exception {
         CuratorFramework curator = ctx.getCuratorFramework();
         if ( null != curator ) {
-            return "already connecting or connected ZooKeeperServer [" 
-                    + curator.getZookeeperClient().getCurrentConnectionString() 
+            return "already connecting or connected ZooKeeperServer ["
+                    + curator.getZookeeperClient().getCurrentConnectionString()
                     + "], exec closezk first";
         }
-        
+
         if (args.length < 1) {
             return "missing zk connect String\n" + getHelp();
         }
-        
+
         curator = CuratorFrameworkFactory.builder()
                 .connectString(args[0])
                 .retryPolicy(new RetryOneTime(1000))
                 .build();
         curator.start();
-        
+
         ctx.setCuratorFramework(curator);
-        
+
         return "ok.";
 	}
 }

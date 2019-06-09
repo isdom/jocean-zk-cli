@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.jocean.zookeeper.cli.cmd;
 
@@ -13,11 +13,13 @@ import org.jocean.zookeeper.cli.ZKCliContext;
  */
 public class ZKClose implements ZKCliCommand {
 
-	public String getAction() {
+	@Override
+    public String getAction() {
 		return "zkclose";
 	}
 
-	public String getHelp() {
+	@Override
+    public String getHelp() {
 		return "disconnect from connected zookeeper server"
 				+ "\r\n\tUsage: zkclose"
 			;
