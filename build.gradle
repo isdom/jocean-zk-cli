@@ -26,8 +26,8 @@ dependencies {
     compile 'jline:jline:2.14.6'
     compile 'org.fusesource.jansi:jansi:2.3.4'
     
-    compile 'org.slf4j:jcl-over-slf4j:1.7.25'
-    compile 'org.slf4j:log4j-over-slf4j:1.7.25'
+    compile 'org.slf4j:jcl-over-slf4j:1.7.32'
+    compile 'org.slf4j:log4j-over-slf4j:1.7.32'
     compile 'ch.qos.logback:logback-classic:1.2.5'
     
     testCompile 'junit:junit:4.12'
